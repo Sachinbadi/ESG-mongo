@@ -15,3 +15,398 @@ pip install python-multipart
 2024-09-24 12:15:13,679:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f25ff9d925812efc4c4303
 2024-09-25 00:36:29,269:INFO:Stored PDF BlogigThemeNotes.pdf in MongoDB with ID 66f30db48a62aca954172710
 2024-09-25 00:40:10,831:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f30e928045b0d9387c20e7
+2024-09-25 13:13:04,237:INFO:Stored PDF Final changes.pdf in MongoDB with ID 66f3bf07670465be1aafc34e
+2024-09-25 13:13:22,387:INFO:Stored PDF Final changes.pdf in MongoDB with ID 66f3bf1a670465be1aafc350
+2024-09-25 13:16:52,359:INFO:Stored PDF BlogigThemeNotes.pdf in MongoDB with ID 66f3bfe9670465be1aafc352
+2024-09-25 13:18:29,707:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f3c04d670465be1aafc365
+2024-09-25 13:24:08,804:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f3c1a0670465be1aafc367
+2024-09-25 14:03:10,556:INFO:Stored PDF BlogigThemeNotes.pdf in MongoDB with ID 66f3cac5670465be1aafc369
+2024-09-25 14:15:08,931:INFO:Stored PDF BlogigThemeNotes.pdf in MongoDB with ID 66f3cd94670465be1aafc37c
+2024-09-25 14:24:23,226:INFO:Stored PDF Final changes.pdf in MongoDB with ID 66f3cfbf670465be1aafc38f
+2024-09-25 14:25:49,184:INFO:Stored PDF Final changes.pdf in MongoDB with ID 66f3d015670465be1aafc391
+2024-09-25 14:33:58,999:INFO:Stored PDF BlogigThemeNotes.pdf in MongoDB with ID 66f3d1fe670465be1aafc393
+2024-09-25 14:47:10,681:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f3d516670465be1aafc3a6
+2024-09-25 14:58:58,674:INFO:Time to store PDF in GridFS: 0.97 seconds
+2024-09-25 14:58:58,676:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f3d7d97abf862dadaeeae0
+2024-09-25 14:58:58,739:INFO:Time to load PDF from GridFS: 0.06 seconds
+2024-09-25 14:59:00,926:INFO:Time to extract text from PDF: 2.19 seconds
+2024-09-25 14:59:00,926:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 14:59:00,926:INFO:Text extracted and split into chunks for PDF ID 66f3d7d97abf862dadaeeae0
+2024-09-25 14:59:05,427:INFO:Time to generate embeddings: 4.50 seconds
+2024-09-25 14:59:05,496:INFO:Time to store document in MongoDB: 0.07 seconds
+2024-09-25 14:59:05,496:INFO:Successfully stored document fd581957-acfb-448e-9e58-8b15cda9e5ca in MongoDB
+2024-09-25 14:59:05,496:INFO:Total processing time: 6.82 seconds
+2024-09-25 14:59:05,496:INFO:Time to process and store PDF: 6.82 seconds
+2024-09-25 14:59:05,496:INFO:Total API call time: 7.80 seconds
+2024-09-25 15:02:52,412:INFO:Time to store PDF in GridFS: 0.45 seconds
+2024-09-25 15:02:52,414:INFO:Stored PDF PP_ISS_REP_961_30APR2009_25MAR2013.pdf in MongoDB with ID 66f3d8c37abf862dadaeeae3
+2024-09-25 15:02:52,471:INFO:Time to load PDF from GridFS: 0.06 seconds
+2024-09-25 15:02:57,083:INFO:Time to extract text from PDF: 4.61 seconds
+2024-09-25 15:02:57,084:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 15:02:57,085:INFO:Text extracted and split into chunks for PDF ID 66f3d8c37abf862dadaeeae3
+2024-09-25 15:03:11,325:INFO:Time to generate embeddings: 14.24 seconds
+2024-09-25 15:03:11,592:INFO:Time to store document in MongoDB: 0.27 seconds
+2024-09-25 15:03:11,592:INFO:Successfully stored document e64056c9-fc98-4dba-878b-905b49311497 in MongoDB
+2024-09-25 15:03:11,592:INFO:Total processing time: 19.18 seconds
+2024-09-25 15:03:11,592:INFO:Time to process and store PDF: 19.18 seconds
+2024-09-25 15:03:11,592:INFO:Total API call time: 19.63 seconds
+2024-09-25 15:03:11,847:INFO:Time to store PDF in GridFS: 0.24 seconds
+2024-09-25 15:03:11,847:INFO:Stored PDF PP_ISS_REP_961_30APR2009_25MAR2013.pdf in MongoDB with ID 66f3d8d77abf862dadaeeae6
+2024-09-25 15:03:11,907:INFO:Time to load PDF from GridFS: 0.06 seconds
+2024-09-25 15:03:16,384:INFO:Time to extract text from PDF: 4.48 seconds
+2024-09-25 15:03:16,384:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 15:03:16,384:INFO:Text extracted and split into chunks for PDF ID 66f3d8d77abf862dadaeeae6
+2024-09-25 15:03:27,103:INFO:Time to generate embeddings: 10.72 seconds
+2024-09-25 15:03:27,378:INFO:Time to store document in MongoDB: 0.28 seconds
+2024-09-25 15:03:27,378:INFO:Successfully stored document 313aa6ea-9344-42f1-ab7f-0c1c4609ab72 in MongoDB
+2024-09-25 15:03:27,378:INFO:Total processing time: 15.53 seconds
+2024-09-25 15:03:27,378:INFO:Time to process and store PDF: 15.53 seconds
+2024-09-25 15:03:27,378:INFO:Total API call time: 15.78 seconds
+2024-09-25 15:32:12,563:INFO:Time to store PDF in GridFS: 0.34 seconds
+2024-09-25 15:32:12,569:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f3dfa47abf862dadaeeae9
+2024-09-25 15:32:12,628:INFO:Time to load PDF from GridFS: 0.06 seconds
+2024-09-25 15:32:14,817:INFO:Time to extract text from PDF: 2.19 seconds
+2024-09-25 15:32:14,826:INFO:Time to split text into chunks: 0.01 seconds
+2024-09-25 15:32:14,826:INFO:Text extracted and split into chunks for PDF ID 66f3dfa47abf862dadaeeae9
+2024-09-25 15:32:18,415:INFO:Time to generate embeddings: 3.59 seconds
+2024-09-25 15:32:18,496:INFO:Time to store document in MongoDB: 0.08 seconds
+2024-09-25 15:32:18,496:INFO:Successfully stored document f0fe6441-2e5e-49ed-9ef3-221ff625cec8 in MongoDB
+2024-09-25 15:32:18,496:INFO:Total processing time: 5.93 seconds
+2024-09-25 15:32:18,496:INFO:Time to process and store PDF: 5.93 seconds
+2024-09-25 15:32:18,496:INFO:Total API call time: 6.27 seconds
+2024-09-25 15:44:11,685:INFO:Time to store PDF in GridFS: 0.86 seconds
+2024-09-25 15:44:11,691:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f3e2727abf862dadaeeaec
+2024-09-25 15:44:11,744:INFO:Time to load PDF from GridFS: 0.05 seconds
+2024-09-25 15:44:13,308:INFO:Time to extract text from PDF: 1.56 seconds
+2024-09-25 15:44:13,309:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 15:44:13,309:INFO:Text extracted and split into chunks for PDF ID 66f3e2727abf862dadaeeaec
+2024-09-25 15:44:17,582:INFO:Time to generate embeddings: 4.27 seconds
+2024-09-25 15:44:17,716:INFO:Time to store document in MongoDB: 0.13 seconds
+2024-09-25 15:44:17,716:INFO:Successfully stored document 60ee1714-4ce1-4a23-9b93-be5a0c3aa355 in MongoDB
+2024-09-25 15:44:17,716:INFO:Total processing time: 6.02 seconds
+2024-09-25 15:44:17,716:INFO:Time to process and store PDF: 6.03 seconds
+2024-09-25 15:44:17,716:INFO:Total API call time: 6.89 seconds
+2024-09-25 15:51:38,210:INFO:Time to store PDF in GridFS: 0.26 seconds
+2024-09-25 15:51:38,211:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f3e4317abf862dadaeeaef
+2024-09-25 15:51:38,265:INFO:Time to load PDF from GridFS: 0.05 seconds
+2024-09-25 15:51:40,278:INFO:Time to extract text from PDF: 2.01 seconds
+2024-09-25 15:51:40,278:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 15:51:40,278:INFO:Text extracted and split into chunks for PDF ID 66f3e4317abf862dadaeeaef
+2024-09-25 15:51:44,531:INFO:Time to generate embeddings: 4.25 seconds
+2024-09-25 15:51:44,603:INFO:Time to store document in MongoDB: 0.07 seconds
+2024-09-25 15:51:44,603:INFO:Successfully stored document 2db26e72-7d1c-4c8c-8773-be2a0f7015c4 in MongoDB
+2024-09-25 15:51:44,603:INFO:Total processing time: 6.39 seconds
+2024-09-25 15:51:44,603:INFO:Time to process and store PDF: 6.39 seconds
+2024-09-25 15:51:44,603:INFO:Total API call time: 6.65 seconds
+2024-09-25 16:04:50,922:INFO:Time to store PDF in GridFS: 0.30 seconds
+2024-09-25 16:04:50,929:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f3e74a7abf862dadaeeaf2
+2024-09-25 16:04:50,978:INFO:Time to load PDF from GridFS: 0.05 seconds
+2024-09-25 16:04:52,907:INFO:Time to extract text from PDF: 1.93 seconds
+2024-09-25 16:04:52,911:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 16:04:52,912:INFO:Text extracted and split into chunks for PDF ID 66f3e74a7abf862dadaeeaf2
+2024-09-25 16:04:57,274:INFO:Time to generate embeddings: 4.36 seconds
+2024-09-25 16:04:57,340:INFO:Time to store document in MongoDB: 0.07 seconds
+2024-09-25 16:04:57,340:INFO:Successfully stored document 475ee56f-4995-4e0e-a145-22f6fda4a630 in MongoDB
+2024-09-25 16:04:57,340:INFO:Total processing time: 6.41 seconds
+2024-09-25 16:04:57,340:INFO:Time to process and store PDF: 6.41 seconds
+2024-09-25 16:04:57,340:INFO:Total API call time: 6.72 seconds
+2024-09-25 16:11:30,040:INFO:Time to store PDF in GridFS: 0.22 seconds
+2024-09-25 16:11:30,042:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f3e8d97abf862dadaeeaf5
+2024-09-25 16:11:30,088:INFO:Time to load PDF from GridFS: 0.05 seconds
+2024-09-25 16:11:31,749:INFO:Time to extract text from PDF: 1.66 seconds
+2024-09-25 16:11:31,750:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 16:11:31,750:INFO:Text extracted and split into chunks for PDF ID 66f3e8d97abf862dadaeeaf5
+2024-09-25 16:11:35,683:INFO:Time to generate embeddings: 3.93 seconds
+2024-09-25 16:11:35,741:INFO:Time to store document in MongoDB: 0.06 seconds
+2024-09-25 16:11:35,741:INFO:Successfully stored document 6fa66ee0-2083-4a50-b44b-efd850613fcc in MongoDB
+2024-09-25 16:11:35,741:INFO:Total processing time: 5.70 seconds
+2024-09-25 16:11:35,741:INFO:Time to process and store PDF: 5.70 seconds
+2024-09-25 16:11:35,741:INFO:Total API call time: 5.92 seconds
+2024-09-25 17:24:47,199:INFO:Time to store PDF in GridFS: 0.66 seconds
+2024-09-25 17:24:47,204:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f3fa067abf862dadaeeaf8
+2024-09-25 17:24:47,257:INFO:Time to load PDF from GridFS: 0.05 seconds
+2024-09-25 17:24:48,750:INFO:Time to extract text from PDF: 1.49 seconds
+2024-09-25 17:24:48,756:INFO:Time to split text into chunks: 0.01 seconds
+2024-09-25 17:24:48,757:INFO:Text extracted and split into chunks for PDF ID 66f3fa067abf862dadaeeaf8
+2024-09-25 17:24:53,282:INFO:Time to generate embeddings: 4.52 seconds
+2024-09-25 17:24:53,398:INFO:Time to store document in MongoDB: 0.12 seconds
+2024-09-25 17:24:53,398:INFO:Successfully stored document 40f201c1-d79b-48e4-9649-700aec046959 in MongoDB
+2024-09-25 17:24:53,398:INFO:Total processing time: 6.19 seconds
+2024-09-25 17:24:53,398:INFO:Time to process and store PDF: 6.19 seconds
+2024-09-25 17:24:53,398:INFO:Total API call time: 6.86 seconds
+2024-09-25 17:25:32,924:INFO:Time to store PDF in GridFS: 0.20 seconds
+2024-09-25 17:25:32,924:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f3fa347abf862dadaeeafb
+2024-09-25 17:25:32,965:INFO:Time to load PDF from GridFS: 0.04 seconds
+2024-09-25 17:25:34,456:INFO:Time to extract text from PDF: 1.49 seconds
+2024-09-25 17:25:34,456:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 17:25:34,456:INFO:Text extracted and split into chunks for PDF ID 66f3fa347abf862dadaeeafb
+2024-09-25 17:25:37,883:INFO:Time to generate embeddings: 3.43 seconds
+2024-09-25 17:25:37,973:INFO:Time to store document in MongoDB: 0.09 seconds
+2024-09-25 17:25:37,973:INFO:Successfully stored document 58eb031f-1094-40ef-9037-549a14762264 in MongoDB
+2024-09-25 17:25:37,973:INFO:Total processing time: 5.05 seconds
+2024-09-25 17:25:37,973:INFO:Time to process and store PDF: 5.05 seconds
+2024-09-25 17:25:37,973:INFO:Total API call time: 5.25 seconds
+2024-09-25 17:28:23,353:INFO:Time to store PDF in GridFS: 0.20 seconds
+2024-09-25 17:28:23,353:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f3fadf7abf862dadaeeafe
+2024-09-25 17:28:23,395:INFO:Time to load PDF from GridFS: 0.04 seconds
+2024-09-25 17:28:25,912:INFO:Time to extract text from PDF: 2.52 seconds
+2024-09-25 17:28:25,912:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 17:28:25,912:INFO:Text extracted and split into chunks for PDF ID 66f3fadf7abf862dadaeeafe
+2024-09-25 17:28:28,078:INFO:Time to generate embeddings: 2.17 seconds
+2024-09-25 17:28:28,145:INFO:Time to store document in MongoDB: 0.07 seconds
+2024-09-25 17:28:28,145:INFO:Successfully stored document 577ecfcb-621a-48ef-9f33-2363f6176e28 in MongoDB
+2024-09-25 17:28:28,145:INFO:Total processing time: 4.79 seconds
+2024-09-25 17:28:28,145:INFO:Time to process and store PDF: 4.79 seconds
+2024-09-25 17:28:28,145:INFO:Total API call time: 4.99 seconds
+2024-09-25 17:40:00,933:INFO:Time to store PDF in GridFS: 0.24 seconds
+2024-09-25 17:40:00,942:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f3fd987abf862dadaeeb01
+2024-09-25 17:40:01,000:INFO:Time to load PDF from GridFS: 0.06 seconds
+2024-09-25 17:40:02,800:INFO:Time to extract text from PDF: 1.80 seconds
+2024-09-25 17:40:02,809:INFO:Time to split text into chunks: 0.01 seconds
+2024-09-25 17:40:02,809:INFO:Text extracted and split into chunks for PDF ID 66f3fd987abf862dadaeeb01
+2024-09-25 17:40:07,267:INFO:Time to generate embeddings: 4.46 seconds
+2024-09-25 17:40:07,333:INFO:Time to store document in MongoDB: 0.07 seconds
+2024-09-25 17:40:07,333:INFO:Successfully stored document 17de9cbc-f879-493e-8383-f184c2152007 in MongoDB
+2024-09-25 17:40:07,333:INFO:Total processing time: 6.39 seconds
+2024-09-25 17:40:07,333:INFO:Time to process and store PDF: 6.39 seconds
+2024-09-25 17:40:07,333:INFO:Total API call time: 6.64 seconds
+2024-09-25 18:20:06,460:INFO:Time to store PDF in GridFS: 0.38 seconds
+2024-09-25 18:20:06,476:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f406fe7abf862dadaeeb04
+2024-09-25 18:20:06,524:INFO:Time to load PDF from GridFS: 0.05 seconds
+2024-09-25 18:20:07,990:INFO:Time to extract text from PDF: 1.47 seconds
+2024-09-25 18:20:07,990:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 18:20:07,990:INFO:Text extracted and split into chunks for PDF ID 66f406fe7abf862dadaeeb04
+2024-09-25 18:20:12,363:INFO:Time to generate embeddings: 4.37 seconds
+2024-09-25 18:20:12,427:INFO:Time to store document in MongoDB: 0.06 seconds
+2024-09-25 18:20:12,427:INFO:Successfully stored document c8aede35-98e4-4e4b-8a6b-4b643e715dbf in MongoDB
+2024-09-25 18:20:12,427:INFO:Total processing time: 5.95 seconds
+2024-09-25 18:20:12,427:INFO:Time to process and store PDF: 5.95 seconds
+2024-09-25 18:20:12,427:INFO:Total API call time: 6.34 seconds
+2024-09-25 18:20:12,619:INFO:Time to store PDF in GridFS: 0.18 seconds
+2024-09-25 18:20:12,633:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f407047abf862dadaeeb07
+2024-09-25 18:20:12,665:INFO:Time to load PDF from GridFS: 0.03 seconds
+2024-09-25 18:20:13,972:INFO:Time to extract text from PDF: 1.31 seconds
+2024-09-25 18:20:13,972:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 18:20:13,972:INFO:Text extracted and split into chunks for PDF ID 66f407047abf862dadaeeb07
+2024-09-25 18:20:17,153:INFO:Time to generate embeddings: 3.18 seconds
+2024-09-25 18:20:17,225:INFO:Time to store document in MongoDB: 0.07 seconds
+2024-09-25 18:20:17,225:INFO:Successfully stored document b4f0148f-c0a8-4db2-9680-8982ad906413 in MongoDB
+2024-09-25 18:20:17,225:INFO:Total processing time: 4.59 seconds
+2024-09-25 18:20:17,225:INFO:Time to process and store PDF: 4.59 seconds
+2024-09-25 18:20:17,225:INFO:Total API call time: 4.78 seconds
+2024-09-25 19:10:02,464:INFO:Time to store PDF in GridFS: 0.26 seconds
+2024-09-25 19:10:02,464:INFO:Stored PDF Final changes.pdf in MongoDB with ID 66f412b27abf862dadaeeb0a
+2024-09-25 19:10:02,527:INFO:Time to load PDF from GridFS: 0.06 seconds
+2024-09-25 19:10:06,228:INFO:Time to extract text from PDF: 3.70 seconds
+2024-09-25 19:10:06,228:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 19:10:06,228:INFO:Text extracted and split into chunks for PDF ID 66f412b27abf862dadaeeb0a
+2024-09-25 19:10:09,155:INFO:Time to generate embeddings: 2.93 seconds
+2024-09-25 19:10:09,211:INFO:Time to store document in MongoDB: 0.06 seconds
+2024-09-25 19:10:09,211:INFO:Successfully stored document b98ed89c-0b4f-4915-be71-d4adba183afd in MongoDB
+2024-09-25 19:10:09,211:INFO:Total processing time: 6.75 seconds
+2024-09-25 19:10:09,211:INFO:Time to process and store PDF: 6.75 seconds
+2024-09-25 19:10:09,211:INFO:Total API call time: 7.01 seconds
+2024-09-25 19:15:29,539:INFO:Time to store PDF in GridFS: 0.24 seconds
+2024-09-25 19:15:29,539:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f413f97abf862dadaeeb0d
+2024-09-25 19:15:29,570:INFO:Time to load PDF from GridFS: 0.03 seconds
+2024-09-25 19:15:30,972:INFO:Time to extract text from PDF: 1.40 seconds
+2024-09-25 19:15:30,972:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 19:15:30,972:INFO:Text extracted and split into chunks for PDF ID 66f413f97abf862dadaeeb0d
+2024-09-25 19:15:35,274:INFO:Time to generate embeddings: 4.30 seconds
+2024-09-25 19:15:35,352:INFO:Time to store document in MongoDB: 0.08 seconds
+2024-09-25 19:15:35,352:INFO:Successfully stored document b4e814de-5428-48e2-b9fd-d5532b0536ad in MongoDB
+2024-09-25 19:15:35,352:INFO:Total processing time: 5.81 seconds
+2024-09-25 19:15:35,352:INFO:Time to process and store PDF: 5.81 seconds
+2024-09-25 19:15:35,352:INFO:Total API call time: 6.06 seconds
+2024-09-25 19:17:57,928:INFO:Time to store PDF in GridFS: 0.88 seconds
+2024-09-25 19:17:57,928:INFO:Stored PDF GranHub Documentation.pdf in MongoDB with ID 66f4148d7abf862dadaeeb10
+2024-09-25 19:17:57,975:INFO:Time to load PDF from GridFS: 0.05 seconds
+2024-09-25 19:19:45,309:INFO:Time to extract text from PDF: 107.33 seconds
+2024-09-25 19:19:45,335:INFO:Time to split text into chunks: 0.02 seconds
+2024-09-25 19:19:45,335:INFO:Text extracted and split into chunks for PDF ID 66f4148d7abf862dadaeeb10
+2024-09-25 19:21:04,283:INFO:Time to generate embeddings: 78.95 seconds
+2024-09-25 19:21:05,386:INFO:Time to store document in MongoDB: 1.10 seconds
+2024-09-25 19:21:05,386:INFO:Successfully stored document c239420b-61d9-4294-8770-a774641b2190 in MongoDB
+2024-09-25 19:21:05,386:INFO:Total processing time: 187.46 seconds
+2024-09-25 19:21:05,386:INFO:Time to process and store PDF: 187.46 seconds
+2024-09-25 19:21:05,386:INFO:Total API call time: 188.34 seconds
+2024-09-25 19:21:05,640:INFO:Time to store PDF in GridFS: 0.18 seconds
+2024-09-25 19:21:05,640:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f415497abf862dadaeeb18
+2024-09-25 19:21:05,672:INFO:Time to load PDF from GridFS: 0.03 seconds
+2024-09-25 19:21:06,949:INFO:Time to extract text from PDF: 1.28 seconds
+2024-09-25 19:21:06,949:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 19:21:06,949:INFO:Text extracted and split into chunks for PDF ID 66f415497abf862dadaeeb18
+2024-09-25 19:21:08,997:INFO:Time to generate embeddings: 2.05 seconds
+2024-09-25 19:21:09,060:INFO:Time to store document in MongoDB: 0.06 seconds
+2024-09-25 19:21:09,060:INFO:Successfully stored document 18b6467e-b92b-4a8c-bb87-e93545745779 in MongoDB
+2024-09-25 19:21:09,060:INFO:Total processing time: 3.42 seconds
+2024-09-25 19:21:09,060:INFO:Time to process and store PDF: 3.42 seconds
+2024-09-25 19:21:09,060:INFO:Total API call time: 3.60 seconds
+2024-09-25 19:21:09,949:INFO:Time to store PDF in GridFS: 0.85 seconds
+2024-09-25 19:21:09,949:INFO:Stored PDF GranHub Documentation.pdf in MongoDB with ID 66f4154d7abf862dadaeeb1b
+2024-09-25 19:21:09,986:INFO:Time to load PDF from GridFS: 0.04 seconds
+2024-09-25 19:22:19,913:INFO:Time to extract text from PDF: 69.93 seconds
+2024-09-25 19:22:19,929:INFO:Time to split text into chunks: 0.02 seconds
+2024-09-25 19:22:19,929:INFO:Text extracted and split into chunks for PDF ID 66f4154d7abf862dadaeeb1b
+2024-09-25 19:23:35,884:INFO:Time to store PDF in GridFS: 0.93 seconds
+2024-09-25 19:23:35,884:INFO:Stored PDF GranHub Documentation.pdf in MongoDB with ID 66f415de7abf862dadaeeb22
+2024-09-25 19:23:35,928:INFO:Time to load PDF from GridFS: 0.04 seconds
+2024-09-25 19:25:29,004:INFO:Time to extract text from PDF: 113.08 seconds
+2024-09-25 19:25:29,004:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 19:25:29,004:INFO:Text extracted and split into chunks for PDF ID 66f415de7abf862dadaeeb22
+2024-09-25 19:26:44,020:INFO:Time to generate embeddings: 264.08 seconds
+2024-09-25 19:26:44,362:INFO:Time to store document in MongoDB: 0.34 seconds
+2024-09-25 19:26:44,362:INFO:Successfully stored document 5dbd1f58-9d60-4804-ae2f-3f0fbb6b010b in MongoDB
+2024-09-25 19:26:44,362:INFO:Total processing time: 334.41 seconds
+2024-09-25 19:26:44,362:INFO:Time to process and store PDF: 334.41 seconds
+2024-09-25 19:26:44,362:INFO:Total API call time: 335.26 seconds
+2024-09-25 19:26:44,393:INFO:Time to generate embeddings: 75.39 seconds
+2024-09-25 19:26:44,592:INFO:Time to store document in MongoDB: 0.20 seconds
+2024-09-25 19:26:44,592:INFO:Successfully stored document 05412d80-f092-4aec-9df4-7b54a24d5bec in MongoDB
+2024-09-25 19:26:44,592:INFO:Total processing time: 188.71 seconds
+2024-09-25 19:26:44,592:INFO:Time to process and store PDF: 188.71 seconds
+2024-09-25 19:26:44,592:INFO:Total API call time: 335.49 seconds
+2024-09-25 19:26:44,806:INFO:Time to store PDF in GridFS: 0.18 seconds
+2024-09-25 19:26:44,806:INFO:Stored PDF Final changes.pdf in MongoDB with ID 66f4169c7abf862dadaeeb2b
+2024-09-25 19:26:44,851:INFO:Time to load PDF from GridFS: 0.04 seconds
+2024-09-25 19:26:47,855:INFO:Time to extract text from PDF: 3.00 seconds
+2024-09-25 19:26:47,857:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 19:26:47,857:INFO:Text extracted and split into chunks for PDF ID 66f4169c7abf862dadaeeb2b
+2024-09-25 19:26:49,370:INFO:Time to store PDF in GridFS: 0.29 seconds
+2024-09-25 19:26:49,370:INFO:Stored PDF GranHub Documentation.pdf in MongoDB with ID 66f416a17abf862dadaeeb2d
+2024-09-25 19:26:49,404:INFO:Time to load PDF from GridFS: 0.03 seconds
+2024-09-25 19:28:18,536:INFO:Time to extract text from PDF: 89.13 seconds
+2024-09-25 19:28:18,542:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 19:28:18,542:INFO:Text extracted and split into chunks for PDF ID 66f416a17abf862dadaeeb2d
+2024-09-25 19:29:33,891:INFO:Time to generate embeddings: 166.03 seconds
+2024-09-25 19:29:33,984:INFO:Time to store document in MongoDB: 0.09 seconds
+2024-09-25 19:29:33,984:INFO:Successfully stored document c0842d17-8343-4df9-9bec-be94b5e53b40 in MongoDB
+2024-09-25 19:29:33,984:INFO:Total processing time: 169.18 seconds
+2024-09-25 19:29:33,993:INFO:Time to process and store PDF: 169.19 seconds
+2024-09-25 19:29:33,993:INFO:Total API call time: 169.37 seconds
+2024-09-25 19:29:34,062:INFO:Time to generate embeddings: 75.52 seconds
+2024-09-25 19:29:34,227:INFO:Time to store document in MongoDB: 0.17 seconds
+2024-09-25 19:29:34,227:INFO:Successfully stored document d98bf748-e5a0-47c4-a4fe-d21d9f22428a in MongoDB
+2024-09-25 19:29:34,227:INFO:Total processing time: 164.86 seconds
+2024-09-25 19:29:34,227:INFO:Time to process and store PDF: 164.86 seconds
+2024-09-25 19:29:34,227:INFO:Total API call time: 169.83 seconds
+2024-09-25 19:29:34,944:INFO:Time to store PDF in GridFS: 0.50 seconds
+2024-09-25 19:29:34,944:INFO:Stored PDF BlogigThemeNotes.pdf in MongoDB with ID 66f417467abf862dadaeeb36
+2024-09-25 19:29:34,985:INFO:Time to load PDF from GridFS: 0.04 seconds
+2024-09-25 19:30:52,082:INFO:Time to extract text from PDF: 77.10 seconds
+2024-09-25 19:30:52,082:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 19:30:52,082:INFO:Text extracted and split into chunks for PDF ID 66f417467abf862dadaeeb36
+2024-09-25 19:30:55,003:INFO:Time to generate embeddings: 2.92 seconds
+2024-09-25 19:30:55,065:INFO:Time to store document in MongoDB: 0.06 seconds
+2024-09-25 19:30:55,065:INFO:Successfully stored document c7205390-2153-41f6-a51b-d46efdaef6a4 in MongoDB
+2024-09-25 19:30:55,065:INFO:Total processing time: 80.12 seconds
+2024-09-25 19:30:55,065:INFO:Time to process and store PDF: 80.12 seconds
+2024-09-25 19:30:55,065:INFO:Total API call time: 80.62 seconds
+2024-09-25 19:30:55,756:INFO:Time to store PDF in GridFS: 0.68 seconds
+2024-09-25 19:30:55,756:INFO:Stored PDF BlogigThemeNotes.pdf in MongoDB with ID 66f417977abf862dadaeeb4a
+2024-09-25 19:30:55,788:INFO:Time to load PDF from GridFS: 0.03 seconds
+2024-09-25 19:31:52,020:INFO:Time to extract text from PDF: 56.23 seconds
+2024-09-25 19:31:52,020:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 19:31:52,020:INFO:Text extracted and split into chunks for PDF ID 66f417977abf862dadaeeb4a
+2024-09-25 19:31:54,929:INFO:Time to generate embeddings: 2.91 seconds
+2024-09-25 19:31:54,992:INFO:Time to store document in MongoDB: 0.06 seconds
+2024-09-25 19:31:54,992:INFO:Successfully stored document 363e7fae-71ab-48a1-99c8-f479af986bc2 in MongoDB
+2024-09-25 19:31:54,992:INFO:Total processing time: 59.24 seconds
+2024-09-25 19:31:54,992:INFO:Time to process and store PDF: 59.24 seconds
+2024-09-25 19:31:54,992:INFO:Total API call time: 59.92 seconds
+2024-09-25 19:33:22,596:INFO:Time to store PDF in GridFS: 0.20 seconds
+2024-09-25 19:33:22,596:INFO:Stored PDF Final changes.pdf in MongoDB with ID 66f4182a7abf862dadaeeb5e
+2024-09-25 19:33:22,629:INFO:Time to load PDF from GridFS: 0.03 seconds
+2024-09-25 19:33:25,531:INFO:Time to extract text from PDF: 2.90 seconds
+2024-09-25 19:33:25,531:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 19:33:25,531:INFO:Text extracted and split into chunks for PDF ID 66f4182a7abf862dadaeeb5e
+2024-09-25 19:33:26,800:INFO:Time to generate embeddings: 1.27 seconds
+2024-09-25 19:33:26,848:INFO:Time to store document in MongoDB: 0.05 seconds
+2024-09-25 19:33:26,848:INFO:Successfully stored document 4b359ea3-95f1-40ab-b559-8b967e6c8090 in MongoDB
+2024-09-25 19:33:26,848:INFO:Total processing time: 4.25 seconds
+2024-09-25 19:33:26,848:INFO:Time to process and store PDF: 4.25 seconds
+2024-09-25 19:33:26,848:INFO:Total API call time: 4.45 seconds
+2024-09-25 19:58:16,558:INFO:Time to store PDF in GridFS: 3.67 seconds
+2024-09-25 19:58:16,558:INFO:Stored PDF BlogigThemeNotes.pdf in MongoDB with ID 66f41dfc7abf862dadaeeb61
+2024-09-25 19:58:16,617:INFO:Time to load PDF from GridFS: 0.06 seconds
+2024-09-25 19:59:35,685:INFO:Time to extract text from PDF: 79.07 seconds
+2024-09-25 19:59:35,685:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 19:59:35,685:INFO:Text extracted and split into chunks for PDF ID 66f41dfc7abf862dadaeeb61
+2024-09-25 19:59:41,640:INFO:Time to generate embeddings: 5.94 seconds
+2024-09-25 19:59:41,701:INFO:Time to store document in MongoDB: 0.06 seconds
+2024-09-25 19:59:41,701:INFO:Successfully stored document 914c45ac-0a9d-43c9-b227-e5b230b877af in MongoDB
+2024-09-25 19:59:41,701:INFO:Total processing time: 85.14 seconds
+2024-09-25 19:59:41,701:INFO:Time to process and store PDF: 85.14 seconds
+2024-09-25 19:59:41,701:INFO:Total API call time: 88.82 seconds
+2024-09-25 20:00:28,606:INFO:Time to store PDF in GridFS: 3.15 seconds
+2024-09-25 20:00:28,606:INFO:Stored PDF BlogigThemeNotes.pdf in MongoDB with ID 66f41e817abf862dadaeeb75
+2024-09-25 20:00:28,662:INFO:Time to load PDF from GridFS: 0.06 seconds
+2024-09-25 20:01:51,738:INFO:Time to extract text from PDF: 83.08 seconds
+2024-09-25 20:01:51,738:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 20:01:51,738:INFO:Text extracted and split into chunks for PDF ID 66f41e817abf862dadaeeb75
+2024-09-25 20:01:57,721:INFO:Time to generate embeddings: 5.98 seconds
+2024-09-25 20:01:57,799:INFO:Time to store document in MongoDB: 0.08 seconds
+2024-09-25 20:01:57,799:INFO:Successfully stored document fb320f6f-90c8-4ef9-9b5c-a6af481b9228 in MongoDB
+2024-09-25 20:01:57,799:INFO:Total processing time: 89.19 seconds
+2024-09-25 20:01:57,799:INFO:Time to process and store PDF: 89.19 seconds
+2024-09-25 20:01:57,799:INFO:Total API call time: 92.34 seconds
+2024-09-25 20:01:58,094:INFO:Time to store PDF in GridFS: 0.29 seconds
+2024-09-25 20:01:58,094:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f41edd7abf862dadaeeb89
+2024-09-25 20:01:58,137:INFO:Time to load PDF from GridFS: 0.04 seconds
+2024-09-25 20:01:59,800:INFO:Time to extract text from PDF: 1.66 seconds
+2024-09-25 20:01:59,800:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 20:01:59,800:INFO:Text extracted and split into chunks for PDF ID 66f41edd7abf862dadaeeb89
+2024-09-25 20:02:02,537:INFO:Time to generate embeddings: 2.74 seconds
+2024-09-25 20:02:02,612:INFO:Time to store document in MongoDB: 0.08 seconds
+2024-09-25 20:02:02,612:INFO:Successfully stored document 730857f1-7296-4d21-9369-32c713789d7a in MongoDB
+2024-09-25 20:02:02,612:INFO:Total processing time: 4.52 seconds
+2024-09-25 20:02:02,612:INFO:Time to process and store PDF: 4.52 seconds
+2024-09-25 20:02:02,612:INFO:Total API call time: 4.81 seconds
+2024-09-25 20:09:01,036:INFO:Time to store PDF in GridFS: 0.35 seconds
+2024-09-25 20:09:01,044:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f420847abf862dadaeeb8c
+2024-09-25 20:09:01,094:INFO:Time to load PDF from GridFS: 0.05 seconds
+2024-09-25 20:09:02,906:INFO:Time to extract text from PDF: 1.81 seconds
+2024-09-25 20:09:02,922:INFO:Time to split text into chunks: 0.02 seconds
+2024-09-25 20:09:02,922:INFO:Text extracted and split into chunks for PDF ID 66f420847abf862dadaeeb8c
+2024-09-25 20:09:07,303:INFO:Time to generate embeddings: 4.38 seconds
+2024-09-25 20:09:07,372:INFO:Time to store document in MongoDB: 0.07 seconds
+2024-09-25 20:09:07,372:INFO:Successfully stored document 631bda15-4649-4c2d-8a07-0a2e49b2625d in MongoDB
+2024-09-25 20:09:07,372:INFO:Total processing time: 6.33 seconds
+2024-09-25 20:09:07,372:INFO:Time to process and store PDF: 6.33 seconds
+2024-09-25 20:09:07,372:INFO:Total API call time: 6.70 seconds
+2024-09-25 20:10:10,371:INFO:Time to store PDF in GridFS: 3.14 seconds
+2024-09-25 20:10:10,371:INFO:Stored PDF BlogigThemeNotes.pdf in MongoDB with ID 66f420c77abf862dadaeeb8f
+2024-09-25 20:10:10,421:INFO:Time to load PDF from GridFS: 0.05 seconds
+2024-09-25 20:11:35,188:INFO:Time to extract text from PDF: 84.77 seconds
+2024-09-25 20:11:35,188:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 20:11:35,188:INFO:Text extracted and split into chunks for PDF ID 66f420c77abf862dadaeeb8f
+2024-09-25 20:11:40,571:INFO:Time to generate embeddings: 5.38 seconds
+2024-09-25 20:11:40,664:INFO:Time to store document in MongoDB: 0.09 seconds
+2024-09-25 20:11:40,664:INFO:Successfully stored document 7c9e2dc7-f561-4707-a3f4-2e0cd6b87761 in MongoDB
+2024-09-25 20:11:40,664:INFO:Total processing time: 90.29 seconds
+2024-09-25 20:11:40,664:INFO:Time to process and store PDF: 90.29 seconds
+2024-09-25 20:11:40,664:INFO:Total API call time: 93.43 seconds
+2024-09-25 20:12:47,894:INFO:Time to store PDF in GridFS: 0.23 seconds
+2024-09-25 20:12:47,894:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f421677abf862dadaeeba3
+2024-09-25 20:12:47,945:INFO:Time to load PDF from GridFS: 0.05 seconds
+2024-09-25 20:12:50,085:INFO:Time to extract text from PDF: 2.14 seconds
+2024-09-25 20:12:50,085:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 20:12:50,085:INFO:Text extracted and split into chunks for PDF ID 66f421677abf862dadaeeba3
+2024-09-25 20:12:52,369:INFO:Time to generate embeddings: 2.28 seconds
+2024-09-25 20:12:52,427:INFO:Time to store document in MongoDB: 0.06 seconds
+2024-09-25 20:12:52,427:INFO:Successfully stored document c123f1b7-3a84-4d93-8952-6a044edd7b32 in MongoDB
+2024-09-25 20:12:52,427:INFO:Total processing time: 4.53 seconds
+2024-09-25 20:12:52,427:INFO:Time to process and store PDF: 4.53 seconds
+2024-09-25 20:12:52,427:INFO:Total API call time: 4.76 seconds
+2024-09-25 21:02:07,023:INFO:Time to store PDF in GridFS: 0.30 seconds
+2024-09-25 21:02:07,027:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f42cf67abf862dadaeeba6
+2024-09-25 21:02:07,081:INFO:Time to load PDF from GridFS: 0.05 seconds
+2024-09-25 21:02:10,609:INFO:Time to extract text from PDF: 3.53 seconds
+2024-09-25 21:02:10,611:INFO:Time to split text into chunks: 0.00 seconds
+2024-09-25 21:02:10,612:INFO:Text extracted and split into chunks for PDF ID 66f42cf67abf862dadaeeba6
+2024-09-25 21:02:14,994:INFO:Time to generate embeddings: 4.38 seconds
+2024-09-25 21:02:15,064:INFO:Time to store document in MongoDB: 0.07 seconds
+2024-09-25 21:02:15,064:INFO:Successfully stored document ca6089e5-6c57-430f-9fb7-75a7887231fe in MongoDB
+2024-09-25 21:02:15,064:INFO:Total processing time: 8.03 seconds
+2024-09-25 21:02:15,064:INFO:Time to process and store PDF: 8.03 seconds
+2024-09-25 21:02:15,064:INFO:Total API call time: 8.34 seconds

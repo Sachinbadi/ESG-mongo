@@ -2,10 +2,12 @@ fastapi
 redis
 types-redis
 uvicorn
-python-dotenv 
-PyPDF2 
-pymongo 
+python-dotenv
+PyPDF2
+pymongo
 google-api-python-client
 langchain
 google-generativeai
 python-multipart
+pdfplumber
+aiohttp

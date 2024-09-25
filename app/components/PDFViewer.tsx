@@ -1,7 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-
+import AnalysisForm from './AnalysisForm';
+import TalkToPDF from './TalkToPDF';
+import { useRouter } from 'next/navigation';
 export function ESGIcon({ type }: { type: 'environmental' | 'social' | 'governance' }) {
   const iconClasses = "h-12 w-12 mb-2";
   const textClasses = "text-sm font-medium text-gray-600";
@@ -51,6 +53,18 @@ function PDFViewer() {
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showSummaryButton, setShowSummaryButton] = useState(false);
+  const [showAnalysisForm, setShowAnalysisForm] = useState(false);
+  const [showTalkToPDF, setShowTalkToPDF] = useState(false);
+  const [showGenerateSummary, setShowGenerateSummary] = useState(false);
+
+  const questions = [
+    { id: 'question1', text: 'What is the company\'s carbon footprint?' },
+    { id: 'question2', text: 'How does the company handle waste management?' },
+    { id: 'question3', text: 'What are the company\'s diversity and inclusion policies?' },
+    // Add more questions as needed
+  ];
+
+  const router = useRouter();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -68,7 +82,7 @@ function PDFViewer() {
         const formData = new FormData();
         formData.append('file', pdfFile);
 
-        const response = await fetch('http://localhost:8000/upload-pdf/', {
+        const response = await fetch('http://localhost:8000/upload-and-process-pdf/', {
           method: 'POST',
           body: formData,
         });
@@ -78,16 +92,47 @@ function PDFViewer() {
         }
 
         const data = await response.json();
-        console.log('PDF uploaded successfully. ID:', data.pdf_id);
+        console.log('PDF uploaded and processed successfully. ID:', data.pdf_id);
         setShowSummaryButton(true);
+        
+        // Navigate to the PDFAnalysisPage
+        router.push(`/analysis?pdfName=${encodeURIComponent(pdfFile.name)}&pdfId=${data.pdf_id}`);
       } catch (error) {
         console.error('Error uploading PDF:', error);
-        alert('Failed to upload PDF. Please try again.');
+        alert('Failed to upload and process PDF. Please try again.');
       } finally {
         setIsLoading(false);
       }
     } else {
       alert('Please upload a PDF file before submitting.');
+    }
+  };
+
+  const handleAnalysisFormSubmit = async (formData: { [key: string]: string }) => {
+    setIsLoading(true);
+    try {
+      const pdfFormData = new FormData();
+      pdfFormData.append('file', pdfFile!);
+      pdfFormData.append('questions', JSON.stringify(formData));
+
+      const response = await fetch('http://localhost:8000/upload-and-process-pdf/', {
+        method: 'POST',
+        body: pdfFormData,
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('PDF uploaded successfully. ID:', data.pdf_id);
+      setShowSummaryButton(true);
+    } catch (error) {
+      console.error('Error uploading PDF:', error);
+      alert('Failed to upload PDF. Please try again.');
+    } finally {
+      setIsLoading(false);
+      setShowAnalysisForm(false);
     }
   };
 
@@ -159,19 +204,28 @@ function PDFViewer() {
                 onClick={handleSubmit}
                 className="w-full px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-300"
               >
-                Submit for Analysis
+                Submit PDF
               </button>
             )}
 
             {isLoading && <ESGLoader />}
 
-            {showSummaryButton && (
-              <button
-                className="mt-8 w-full px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors duration-300"
-              >
-                Generate Summary
-              </button>
-            )}
+            {/* {showSummaryButton && (
+              <div className="mt-8 flex space-x-4">
+                <button
+                  onClick={() => setShowGenerateSummary(true)}
+                  className="w-1/2 px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors duration-300"
+                >
+                  Generate Summary
+                </button>
+                <button
+                  onClick={() => setShowTalkToPDF(true)}
+                  className="w-1/2 px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-300"
+                >
+                  Talk to PDF
+                </button>
+              </div> */}
+            
           </div>
         </div>
       </main>
@@ -181,6 +235,18 @@ function PDFViewer() {
           <p className="text-sm text-gray-500">© 2023 ESG Report Analyzer. All rights reserved.</p>
         </div>
       </footer>
+
+      {showAnalysisForm && (
+        <AnalysisForm
+          questions={questions}
+          onSubmit={handleAnalysisFormSubmit}
+          onClose={() => setShowAnalysisForm(false)}
+        />
+      )}
+
+      {showTalkToPDF && (
+        <TalkToPDF onClose={() => setShowTalkToPDF(false)} />
+      )}
     </div>
   );
 }
