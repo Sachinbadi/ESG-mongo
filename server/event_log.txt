@@ -1,0 +1,17 @@
+2024-09-23 16:16:48,744:ERROR:Form data requires "python-multipart" to be installed. 
+You can install "python-multipart" with: 
+
+pip install python-multipart
+
+2024-09-23 16:18:24,033:ERROR:Error processing PDF: [Errno 2] No such file or directory: '/tmp/b28dbf38-6343-482e-93c8-8aa1b1508fce_PP_ISS_REP_961_30APR2009_25MAR2013.pdf'
+2024-09-23 16:23:19,444:ERROR:Error processing PDF: [Errno 2] No such file or directory: '/tmp/3381868c-3125-4abc-ba1f-8fb2e8803a98_PP_ISS_REP_961_30APR2009_25MAR2013.pdf'
+2024-09-23 16:27:52,292:ERROR:Error processing PDF: [Errno 2] No such file or directory: '/tmp/3ff31f52-fb53-4aaa-8f8f-d85b3e508c98_PP_ISS_REP_961_30APR2009_25MAR2013.pdf'
+2024-09-23 16:32:17,271:INFO:Stored PDF PP_ISS_REP_961_30APR2009_25MAR2013.pdf in MongoDB with ID 66f14ab63dbdfc4cf5082651
+2024-09-23 16:38:31,952:INFO:Text extracted and split into chunks for PDF ID 66f14ab63dbdfc4cf5082651
+2024-09-23 16:38:49,044:INFO:Successfully stored document a04d948d-3125-4785-aaa1-53de8373e65f in MongoDB
+2024-09-23 17:07:56,966:INFO:Stored PDF PP_ISS_REP_961_30APR2009_25MAR2013.pdf in MongoDB with ID 66f15313d0124b8f530059a9
+2024-09-23 17:10:57,205:INFO:Text extracted and split into chunks for PDF ID 66f15313d0124b8f530059a9
+2024-09-23 17:11:14,387:INFO:Successfully stored document c4a4d1bd-422b-4dbc-b314-c7389f6580fa in MongoDB
+2024-09-24 12:15:13,679:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f25ff9d925812efc4c4303
+2024-09-25 00:36:29,269:INFO:Stored PDF BlogigThemeNotes.pdf in MongoDB with ID 66f30db48a62aca954172710
+2024-09-25 00:40:10,831:INFO:Stored PDF blockchain.pdf in MongoDB with ID 66f30e928045b0d9387c20e7
