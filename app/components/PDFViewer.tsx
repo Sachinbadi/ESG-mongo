@@ -55,7 +55,6 @@ function PDFViewer() {
   const [showSummaryButton, setShowSummaryButton] = useState(false);
   const [showAnalysisForm, setShowAnalysisForm] = useState(false);
   const [showTalkToPDF, setShowTalkToPDF] = useState(false);
-  const [showGenerateSummary, setShowGenerateSummary] = useState(false);
 
   const questions = [
     { id: 'question1', text: 'What is the company\'s carbon footprint?' },
@@ -82,7 +81,7 @@ function PDFViewer() {
         const formData = new FormData();
         formData.append('file', pdfFile);
 
-        const response = await fetch('http://localhost:8000/upload-and-process-pdf/', {
+        const response = await fetch('http://localhost:8000/process_pdf', {
           method: 'POST',
           body: formData,
         });
@@ -92,14 +91,18 @@ function PDFViewer() {
         }
 
         const data = await response.json();
-        console.log('PDF uploaded and processed successfully. ID:', data.pdf_id);
-        setShowSummaryButton(true);
+        console.log('PDF processed successfully:', data.message);
         
+        // Store the summary in local storage
+        localStorage.setItem('pdfSummary', data.summary);
+        
+        setShowSummaryButton(true);
         // Navigate to the PDFAnalysisPage
         router.push(`/analysis?pdfName=${encodeURIComponent(pdfFile.name)}&pdfId=${data.pdf_id}`);
+        
       } catch (error) {
-        console.error('Error uploading PDF:', error);
-        alert('Failed to upload and process PDF. Please try again.');
+        console.error('Error processing PDF:', error);
+        alert('Failed to process PDF. Please try again.');
       } finally {
         setIsLoading(false);
       }

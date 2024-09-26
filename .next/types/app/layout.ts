@@ -1,4 +1,4 @@
-// File: D:\ESG-mongo\app\layout.js
+// File: D:\VentureInternship\FastAPI\ESG-mongo\app\layout.js
 import * as entry from '../../../app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

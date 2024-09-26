@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AnalysisForm from './AnalysisForm';
 import TalkToPDF from './TalkToPDF';
 import { motion } from 'framer-motion';
@@ -12,6 +12,13 @@ const PDFAnalysisPage: React.FC<PDFAnalysisPageProps> = ({ pdfName, pdfId }) => 
   const [showAnalysisForm, setShowAnalysisForm] = useState(false);
   const [summary, setSummary] = useState<string | null>(null);
 
+  useEffect(() => {
+    const storedSummary = localStorage.getItem('pdfSummary');
+    if (storedSummary) {
+      setSummary(storedSummary);
+    }
+  }, []);
+
   const handleGenerateSummary = () => {
     setShowAnalysisForm(true);
   };
@@ -19,7 +26,9 @@ const PDFAnalysisPage: React.FC<PDFAnalysisPageProps> = ({ pdfName, pdfId }) => 
   const handleAnalysisFormSubmit = (formData: { [key: string]: string }) => {
     console.log(formData);
     // TODO: Implement actual summary generation based on form data
-    setSummary("This is a placeholder summary based on the submitted form data.");
+    const newSummary = "This is a placeholder summary based on the submitted form data.";
+    setSummary(newSummary);
+    localStorage.setItem('pdfSummary', newSummary);
     setShowAnalysisForm(false);
   };
 
@@ -41,13 +50,15 @@ const PDFAnalysisPage: React.FC<PDFAnalysisPageProps> = ({ pdfName, pdfId }) => 
           </button>
           {summary && (
             <motion.div 
-              className="mt-6 bg-gray-50 p-4 rounded-lg border border-gray-200"
+              className="mt-6 bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-lg shadow-md"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <h3 className="text-xl font-semibold mb-3 text-gray-700">Summary</h3>
-              <p className="text-gray-600 leading-relaxed">{summary}</p>
+              <h3 className="text-2xl font-semibold mb-4 text-gray-700">Summary</h3>
+              <p className="text-gray-600 leading-relaxed text-justify" style={{ lineHeight: '1.15' }}>
+                {summary}
+              </p>
             </motion.div>
           )}
         </div>

@@ -1,4 +1,4 @@
-// File: D:\ESG-mongo\app\analysis\page.tsx
+// File: D:\VentureInternship\FastAPI\ESG-mongo\app\analysis\page.tsx
 import * as entry from '../../../../app/analysis/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

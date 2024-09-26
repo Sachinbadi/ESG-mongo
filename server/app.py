@@ -1,24 +1,17 @@
 import os
-import logging
-import uuid
-import time
-import asyncio
-import aiohttp
-import pdfplumber
+from fastapi import FastAPI, HTTPException, UploadFile, File
+from pydantic import BaseModel
 from dotenv import load_dotenv
+from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
+from langchain_astradb import AstraDBVectorStore
+from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from pymongo import MongoClient, errors
-from gridfs import GridFS
-import google.generativeai as genai
-import key_param
-import traceback
-from fastapi import FastAPI, File, UploadFile
-from fastapi.responses import JSONResponse
+from langchain.prompts import ChatPromptTemplate
+from langchain.schema.output_parser import StrOutputParser
+from langchain.schema.runnable import RunnablePassthrough
+import time
 from fastapi.middleware.cors import CORSMiddleware
-from bson.objectid import ObjectId
-# Initialize logging
-logging.basicConfig(filename="event_log.txt", level=logging.INFO, format="%(asctime)s:%(levelname)s:%(message)s")
-# Set up FastAPI app
+
 app = FastAPI()
 # Add CORS middleware
 app.add_middleware(
@@ -28,126 +21,190 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-# Set up Google API for embeddings
-genai.configure(api_key=key_param.google_api_key)
-# Set up MongoDB connection
-try:
-    client = MongoClient(key_param.MONGO_URI)
-    db = client["pdf_demo"]
-    collection = db["embedded_pdf_texts"]
-    fs = GridFS(db)  # Initialize GridFS for PDF storage
-    print("Successfully connected to MongoDB")
-except Exception as e:
-    print(f"Error connecting to MongoDB: {e}")
-    exit(1)
-class CustomEmbedding:
-    def embed_documents(self, texts):
-        return [self.embed_query(text) for text in texts]
-    def embed_query(self, text):
-        result = genai.embed_content(
-            model="models/embedding-001",
-            content=text,
-            task_type="retrieval_document",
-            title="Embedding of text"
-        )
-        return result['embedding']
-    async def aembed_query(self, text):
-        # This is a placeholder. Implement actual async embedding if possible.
-        return self.embed_query(text)
-def get_pdf_text(pdf_file):
-    text = ""
-    with pdfplumber.open(pdf_file) as pdf:
-        for page in pdf.pages:
-            text += page.extract_text() or ""
-    return text
-def get_text_chunks(text):
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=512,
-        chunk_overlap=50
-    )
-    chunks = text_splitter.split_text(text)
-    return chunks
-async def generate_embedding(chunk, custom_embeddings):
-    embedding = await custom_embeddings.aembed_query(chunk)
-    return {"text_chunk": chunk, "embedding": embedding}
-async def process_and_store_pdf_from_gridfs(pdf_id):
+
+# Load environment variables
+load_dotenv()
+
+# Astra DB Configuration
+ASTRA_DB_APPLICATION_TOKEN = os.getenv("ASTRA_DB_APPLICATION_TOKEN")
+ASTRA_DB_API_ENDPOINT = os.getenv("ASTRA_DB_API_ENDPOINT")
+COLLECTION_NAME = "talk_to_pdf"
+
+# Google API Configuration
+os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
+
+# Initialize embeddings
+embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+
+# Initialize vector store
+vector_store = AstraDBVectorStore(
+    embedding=embeddings,
+    collection_name=COLLECTION_NAME,
+    token=ASTRA_DB_APPLICATION_TOKEN,
+    api_endpoint=ASTRA_DB_API_ENDPOINT,
+    metric="cosine"
+)
+
+# Initialize language model
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro-002", temperature=0.2, max_output_tokens=8000, top_p=0.95, top_k=40)
+
+class ChatRequest(BaseModel):
+    question: str
+
+def summarize_content(content):
+    # Retrieve relevant information from the vector store
+    retriever = vector_store.as_retriever(search_kwargs={"k": 5})  # Use the first 1000 characters as a query
+    relevant_docs = retriever.invoke(content[:1000])  # Use the first 1000 characters as a query
+    relevant_content = "\n\n".join([doc.page_content for doc in relevant_docs])
+    relevant_content = f"{content}\n\n{relevant_content}"  # Combine PDF content with retrieved content
+
+    summarization_prompt = """Please provide a concise summary of the following content, incorporating any relevant information from the additional context provided:
+
+    Main Content:
+    {content}
+
+    Additional Context:
+    {relevant_content}
+
+    Summary:"""
+    prompt = ChatPromptTemplate.from_template(summarization_prompt)
+    
+    summarization_chain = prompt | llm | StrOutputParser()
+    
     try:
-        start_time = time.time()
-        # Load the PDF from MongoDB GridFS
-        pdf_file = fs.get(pdf_id)
-        pdf_load_time = time.time() - start_time
-        logging.info(f"Time to load PDF from GridFS: {pdf_load_time:.2f} seconds")
-        # Extract text from PDF
-        text_extraction_start = time.time()
-        raw_text = get_pdf_text(pdf_file)
-        text_extraction_time = time.time() - text_extraction_start
-        logging.info(f"Time to extract text from PDF: {text_extraction_time:.2f} seconds")
-        # Split text into chunks
-        chunk_start = time.time()
-        text_chunks = get_text_chunks(raw_text)
-        chunk_time = time.time() - chunk_start
-        logging.info(f"Time to split text into chunks: {chunk_time:.2f} seconds")
-        logging.info(f"Text extracted and split into chunks for PDF ID {pdf_id}")
-        # Generate a unique ID for the PDF document (cluster ID)
-        document_id = str(uuid.uuid4())
-        # Initialize custom embeddings
-        custom_embeddings = CustomEmbedding()
-        # Generate embeddings asynchronously
-        embedding_start = time.time()
-        tasks = [generate_embedding(chunk, custom_embeddings) for chunk in text_chunks]
-        chunk_embeddings = await asyncio.gather(*tasks)
-        embedding_time = time.time() - embedding_start
-        logging.info(f"Time to generate embeddings: {embedding_time:.2f} seconds")
-        # Create a single MongoDB document (cluster) with an array of chunks and embeddings
-        document_data = {
-            "document_id": document_id,
-            "file_name": pdf_file.filename,
-            "pdf_id": pdf_id,
-            "chunks_and_embeddings": chunk_embeddings
-        }
-        # Store the document in MongoDB
-        try:
-            store_start = time.time()
-            collection.insert_one(document_data)
-            store_time = time.time() - store_start
-            logging.info(f"Time to store document in MongoDB: {store_time:.2f} seconds")
-            logging.info(f"Successfully stored document {document_id} in MongoDB")
-        except Exception as e:
-            logging.error(f"Error storing document {document_id} in MongoDB: {traceback.format_exc()}")
-        total_time = time.time() - start_time
-        logging.info(f"Total processing time: {total_time:.2f} seconds")
-    except errors.PyMongoError as e:
-        logging.error(f"Error retrieving PDF from MongoDB GridFS: {e}")
-        raise e
-@app.post("/upload-and-process-pdf/")
-async def upload_and_process_pdf(file: UploadFile = File(...)):
-    try:
-        start_time = time.time()
-        # Store the uploaded PDF in GridFS
-        pdf_content = await file.read()
-        store_start = time.time()
-        pdf_id = fs.put(pdf_content, filename=file.filename)
-        store_time = time.time() - store_start
-        logging.info(f"Time to store PDF in GridFS: {store_time:.2f} seconds")
-        logging.info(f"Stored PDF {file.filename} in MongoDB with ID {pdf_id}")
-        # Process the stored PDF asynchronously
-        process_start = time.time()
-        await process_and_store_pdf_from_gridfs(pdf_id)
-        process_time = time.time() - process_start
-        logging.info(f"Time to process and store PDF: {process_time:.2f} seconds")
-        total_time = time.time() - start_time
-        logging.info(f"Total API call time: {total_time:.2f} seconds")
-        return JSONResponse(status_code=200, content={
-            "message": "PDF uploaded and processed successfully.",
-            "pdf_id": str(pdf_id),
-            "processing_time": f"{total_time:.2f} seconds"
+        summary = summarization_chain.invoke({
+            "content": content,
+            "relevant_content": relevant_content
         })
+        return summary
     except Exception as e:
-        logging.error(f"Error uploading or processing PDF: {e}")
-        print(traceback.format_exc())
-        return JSONResponse(status_code=500, content={
-            "message": f"Error uploading or processing PDF: {str(e)}"
-        })
+        return f"An error occurred while summarizing: {e}"
+
+def chat_with_pdf(question):
+    # Set up the retriever
+    retriever = vector_store.as_retriever(search_kwargs={"k": 5})
+    print(retriever)
+
+    # Set up the RAG prompt template
+    template = """You are an AI assistant tasked with answering questions based on the provided context. 
+    Please analyze the context carefully and provide a detailed, accurate answer to the question.
+
+    Context:
+    {context}
+
+    Question: {question}
+
+    Answer:"""
+    prompt = ChatPromptTemplate.from_template(template)
+
+    # Set up the RAG chain
+    rag_chain = (
+        {"context": retriever | (lambda docs: "\n\n".join(doc.page_content for doc in docs)), "question": RunnablePassthrough()}
+        | prompt
+        | llm
+        | StrOutputParser()
+    )
+
+    # Generate the answer
+    try:
+        response = rag_chain.invoke(question)
+        return response
+    except Exception as e:
+        return f"An error occurred: {e}"    
+
+@app.post("/process_pdf")
+async def process_pdf_api(file: UploadFile = File(...)):
+    try:
+        # Save the uploaded file temporarily
+        temp_file_path = f"temp_{file.filename}"
+        with open(temp_file_path, "wb") as buffer:
+            buffer.write(await file.read())
+
+        # Process the PDF
+        loader = PyPDFLoader(temp_file_path)
+        documents = loader.load()
+
+        #generating summary
+        full_content = "\n".join([doc.page_content for doc in documents])
+        summary = summarize_content(full_content)
+        
+        # Split text into chunks
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+        chunks = text_splitter.split_documents(documents)
+        
+        # Store chunks in Astra DB with batching and retries
+        batch_size = 50
+        max_retries = 3
+        total_chunks = len(chunks)
+        successful_inserts = 0
+
+        for i in range(0, total_chunks, batch_size):
+            batch = chunks[i:i+batch_size]
+            retry_count = 0
+            while retry_count < max_retries:
+                try:
+                    vector_store.add_documents(
+                        batch,
+                        ids=[f"doc_{j}" for j in range(i, min(i+batch_size, total_chunks))]
+                    )
+                    successful_inserts += len(batch)
+                    break
+                except Exception as e:
+                    retry_count += 1
+                    if retry_count == max_retries:
+                        raise HTTPException(status_code=500, detail=f"Failed to insert batch {i//batch_size + 1} after {max_retries} attempts")
+                    time.sleep(5)
+
+        # Clean up the temporary file
+        os.remove(temp_file_path)
+
+        if successful_inserts == total_chunks:
+            return {
+                "message": f"PDF processed and stored successfully. Added all {total_chunks} chunks to the database.",
+                "summary": summary
+            }
+        else:
+            return {
+                "message": f"PDF processing partially successful. Added {successful_inserts} out of {total_chunks} chunks to the database.",
+                "summary": summary
+            }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error processing PDF: {str(e)}")
+
+@app.post("/chat_with_pdf")
+async def chat_with_pdf_api(chat_request: ChatRequest):
+    try:
+        # Set up the retriever
+        retriever = vector_store.as_retriever(search_kwargs={"k": 5})
+
+        # Set up the RAG prompt template
+        template = """You are an AI assistant tasked with answering questions based on the provided context. 
+        Please analyze the context carefully and provide a detailed, accurate answer to the question.
+
+        Context:
+        {context}
+
+        Question: {question}
+
+        Answer:"""
+        prompt = ChatPromptTemplate.from_template(template)
+
+        # Set up the RAG chain
+        rag_chain = (
+            {"context": retriever | (lambda docs: "\n\n".join(doc.page_content for doc in docs)), "question": RunnablePassthrough()}
+            | prompt
+            | llm
+            | StrOutputParser()
+        )
+
+        # Generate the answer
+        response = rag_chain.invoke(chat_request.question)
+        return {"answer": response}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)

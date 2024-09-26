@@ -7,11 +7,33 @@ interface TalkToPDFProps {
 const TalkToPDF: React.FC<TalkToPDFProps> = ({ onClose }) => {
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement the API call to process the question
-    setAnswer(`This is a dummy answer to your question: "${question}"`);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('http://localhost:8000/chat_with_pdf', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ question }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to get answer');
+      }
+
+      const data = await response.json();
+      setAnswer(data.answer);
+    } catch (error) {
+      console.error('Error:', error);
+      setAnswer('An error occurred while processing your question. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
