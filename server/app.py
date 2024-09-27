@@ -11,6 +11,7 @@ from langchain.schema.output_parser import StrOutputParser
 from langchain.schema.runnable import RunnablePassthrough
 import time
 from fastapi.middleware.cors import CORSMiddleware
+from typing import Optional
 
 app = FastAPI()
 # Add CORS middleware
@@ -50,6 +51,7 @@ llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro-002", temperature=0.2, max_ou
 
 class ChatRequest(BaseModel):
     question: str
+    source: Optional[str] = None 
 
 def summarize_content(content):
     # Retrieve relevant information from the vector store
@@ -137,17 +139,22 @@ async def process_pdf_api(file: UploadFile = File(...)):
         max_retries = 3
         total_chunks = len(chunks)
         successful_inserts = 0
+        inserted_indices = []
 
         for i in range(0, total_chunks, batch_size):
             batch = chunks[i:i+batch_size]
             retry_count = 0
             while retry_count < max_retries:
                 try:
-                    vector_store.add_documents(
-                        batch,
-                        ids=[f"doc_{j}" for j in range(i, min(i+batch_size, total_chunks))]
-                    )
+                    # Add source metadata to each document
+                    for doc in batch:
+                        doc.metadata["source"] = file.filename
+
+                    # Let AstraDB generate IDs
+                    inserted_ids = vector_store.add_documents(batch)
+                    
                     successful_inserts += len(batch)
+                    inserted_indices.extend(inserted_ids)
                     break
                 except Exception as e:
                     retry_count += 1
@@ -161,12 +168,14 @@ async def process_pdf_api(file: UploadFile = File(...)):
         if successful_inserts == total_chunks:
             return {
                 "message": f"PDF processed and stored successfully. Added all {total_chunks} chunks to the database.",
-                "summary": summary
+                "summary": summary,
+                "inserted_indices": inserted_indices
             }
         else:
             return {
                 "message": f"PDF processing partially successful. Added {successful_inserts} out of {total_chunks} chunks to the database.",
-                "summary": summary
+                "summary": summary,
+                "inserted_indices": inserted_indices
             }
 
     except Exception as e:
@@ -175,8 +184,12 @@ async def process_pdf_api(file: UploadFile = File(...)):
 @app.post("/chat_with_pdf")
 async def chat_with_pdf_api(chat_request: ChatRequest):
     try:
-        # Set up the retriever
-        retriever = vector_store.as_retriever(search_kwargs={"k": 5})
+        # Set up the retriever with optional source filtering
+        search_kwargs = {"k": 5}
+        if chat_request.source:
+            search_kwargs["filter"] = {"source": chat_request.source}
+        
+        retriever = vector_store.as_retriever(search_kwargs=search_kwargs)
 
         # Set up the RAG prompt template
         template = """You are an AI assistant tasked with answering questions based on the provided context. 
@@ -200,7 +213,11 @@ async def chat_with_pdf_api(chat_request: ChatRequest):
 
         # Generate the answer
         response = rag_chain.invoke(chat_request.question)
-        return {"answer": response}
+        return {
+            "answer": response, 
+            "source_filtered": chat_request.source is not None,
+            "filter_applied": chat_request.source if chat_request.source else "None"
+        }
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
