@@ -162,23 +162,32 @@ async def process_pdf_api(file: UploadFile = File(...)):
                         raise HTTPException(status_code=500, detail=f"Failed to insert batch {i//batch_size + 1} after {max_retries} attempts")
                     time.sleep(5)
 
+        # Prepare the response
+        if successful_inserts == total_chunks:
+            response = {
+                "message": f"PDF processed and stored successfully. Added all {total_chunks} chunks to the database.",
+                "summary": summary,
+                "inserted_indices": inserted_indices,
+                "file_name": file.filename
+            }
+        else:
+            response = {
+                "message": f"PDF processing partially successful. Added {successful_inserts} out of {total_chunks} chunks to the database.",
+                "summary": summary,
+                "inserted_indices": inserted_indices,
+                "file_name": file.filename
+            }
+        print(file.filename, type(file.filename))
+
         # Clean up the temporary file
         os.remove(temp_file_path)
 
-        if successful_inserts == total_chunks:
-            return {
-                "message": f"PDF processed and stored successfully. Added all {total_chunks} chunks to the database.",
-                "summary": summary,
-                "inserted_indices": inserted_indices
-            }
-        else:
-            return {
-                "message": f"PDF processing partially successful. Added {successful_inserts} out of {total_chunks} chunks to the database.",
-                "summary": summary,
-                "inserted_indices": inserted_indices
-            }
+        return response
 
     except Exception as e:
+        # Make sure to clean up the temporary file in case of an exception
+        if os.path.exists(temp_file_path):
+            os.remove(temp_file_path)
         raise HTTPException(status_code=500, detail=f"Error processing PDF: {str(e)}")
 
 @app.post("/chat_with_pdf")

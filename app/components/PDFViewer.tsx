@@ -96,9 +96,12 @@ function PDFViewer() {
         // Store the summary in local storage
         localStorage.setItem('pdfSummary', data.summary);
         
+        // Store the filename in local storage
+        localStorage.setItem('pdfFilename', data.file_name);
+        
         setShowSummaryButton(true);
         // Navigate to the PDFAnalysisPage
-        router.push(`/analysis?pdfName=${encodeURIComponent(pdfFile.name)}&pdfId=${data.pdf_id}`);
+        router.push(`/analysis?pdfName=${encodeURIComponent(data.filename)}&pdfId=${data.pdf_id}`);
         
       } catch (error) {
         console.error('Error processing PDF:', error);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface TalkToPDFProps {
   onClose: () => void;
@@ -8,6 +8,16 @@ const TalkToPDF: React.FC<TalkToPDFProps> = ({ onClose }) => {
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [pdfFilename, setPdfFilename] = useState('');
+  const [talkToKnowledgeBase, setTalkToKnowledgeBase] = useState(false);
+
+  useEffect(() => {
+    // Retrieve the filename from local storage when the component mounts
+    const storedFilename = localStorage.getItem('pdfFilename');
+    if (storedFilename) {
+      setPdfFilename(storedFilename);
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,7 +29,10 @@ const TalkToPDF: React.FC<TalkToPDFProps> = ({ onClose }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ question }),
+        body: JSON.stringify({ 
+          question, 
+          source: talkToKnowledgeBase ? null : pdfFilename 
+        }),
       });
 
       if (!response.ok) {
@@ -53,6 +66,21 @@ const TalkToPDF: React.FC<TalkToPDFProps> = ({ onClose }) => {
       </main>
       
       <footer className="p-5 mt-auto">
+        <div className="flex items-center justify-start mb-4">
+          <label className="flex items-center cursor-pointer">
+            <span className="mr-2 text-sm">Talk to Knowledge Base</span>
+            <div className="relative">
+              <input 
+                type="checkbox" 
+                className="sr-only" 
+                checked={talkToKnowledgeBase}
+                onChange={() => setTalkToKnowledgeBase(!talkToKnowledgeBase)}
+              />
+              <div className={`w-10 h-4 rounded-full shadow-inner ${talkToKnowledgeBase ? 'bg-green-400' : 'bg-gray-400'}`}></div>
+              <div className={`absolute w-6 h-6 rounded-full shadow -left-1 -top-1 transition ${talkToKnowledgeBase ? 'transform translate-x-full bg-green-500' : 'bg-white'}`}></div>
+            </div>
+          </label>
+        </div>
         <form onSubmit={handleSubmit} className="flex items-center">
           <input
             type="text"
