@@ -10,18 +10,83 @@ function Auth() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState<string | null>(null); // Error state
+  const [isLoading, setIsLoading] = useState(false); // Loading state
 
-  const handleAuth = () => {
+  // Handle the authentication action (signup or login)
+  const handleAuth = async () => {
+    setError(null); // Reset error before each request
+    setIsLoading(true); // Set loading state
+
     if (isSignUp) {
       if (password !== confirmPassword) {
-        alert('Passwords do not match');
+        setError('Passwords do not match');
+        setIsLoading(false); // Disable loading
         return;
       }
-      // Handle sign-up logic here
-      login(); // Call login after successful sign-up
+
+      // Sign-up logic
+      
+try {
+  const response = await fetch('http://localhost:8000/signup', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ username: email, password }), // Ensure 'username' is set to 'email'
+  });
+
+  if (!response.ok) {
+    const data = await response.json();
+    setError(data.detail || 'Error signing up');
+    setIsLoading(false); // Disable loading
+    return;
+  }
+
+  // Automatically log in after successful sign-up
+  await handleLogin();
+} catch (err) {
+  setError('Network error');
+  setIsLoading(false); // Disable loading
+}
+
     } else {
-      // Handle sign-in logic here
-      login(); // Call login after successful sign-in
+      // Sign-in logic
+      await handleLogin();
+    }
+  };
+  console.log('Sending login request with:', { email, password });
+  // Handle the login
+  const handleLogin = async () => {
+    try {
+      const formData = new URLSearchParams();
+      formData.append('username', email);
+      formData.append('password', password);
+
+      const response = await fetch('http://localhost:8000/token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(errorData.detail || 'Invalid credentials');
+        setIsLoading(false);
+        return;
+      }
+
+      const data = await response.json();
+      login(data.access_token);
+      localStorage.setItem('token', data.access_token);
+
+      setIsLoading(false);
+    } catch (err) {
+      console.error('Network error:', err);
+      setError('Network error. Please check your connection and try again.');
+      setIsLoading(false);
     }
   };
 
@@ -36,6 +101,9 @@ function Auth() {
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
           {isSignUp ? 'Sign Up' : 'Sign In'}
         </h2>
+
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>} {/* Display error */}
+
         <div className="mb-4">
           <label className="block text-gray-700">Email</label>
           <input
@@ -54,6 +122,7 @@ function Auth() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+
         {isSignUp && (
           <div className="mb-4">
             <label className="block text-gray-700">Confirm Password</label>
@@ -65,18 +134,21 @@ function Auth() {
             />
           </div>
         )}
+
         <button
           onClick={handleAuth}
-          className="w-full bg-blue-600 text-white py-2 rounded-md"
+          className={`w-full bg-blue-600 text-white py-2 rounded-md ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={isLoading} // Disable button while loading
         >
-          {isSignUp ? 'Sign Up' : 'Sign In'}
+          {isLoading ? 'Processing...' : isSignUp ? 'Sign Up' : 'Sign In'}
         </button>
+
         <div className="mt-4 text-center">
           <button
             onClick={() => setIsSignUp(!isSignUp)}
             className="text-blue-600"
           >
-            {isSignUp ? 'Already have an account? Sign In' : 'Don\'t have an account? Sign Up'}
+            {isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
           </button>
         </div>
       </div>

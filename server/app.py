@@ -1,7 +1,17 @@
 import os
-from fastapi import FastAPI, HTTPException, UploadFile, File
+from fastapi import FastAPI, HTTPException, UploadFile, File, Depends
 from pydantic import BaseModel
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from dotenv import load_dotenv
+from pymongo import MongoClient
+from passlib.context import CryptContext
+from datetime import datetime, timedelta, timezone
+import jwt
+import time
+from fastapi.middleware.cors import CORSMiddleware
+from typing import Optional
+
+# PDF-related imports
 from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
 from langchain_astradb import AstraDBVectorStore
 from langchain_community.document_loaders import PyPDFLoader
@@ -9,12 +19,11 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema.output_parser import StrOutputParser
 from langchain.schema.runnable import RunnablePassthrough
-import time
-from fastapi.middleware.cors import CORSMiddleware
-from typing import Optional
 
+# Initialize FastAPI app
 app = FastAPI()
-# Add CORS middleware
+
+# CORS configuration
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],  # Add your frontend URL
@@ -26,7 +35,120 @@ app.add_middleware(
 # Load environment variables
 load_dotenv()
 
-# Astra DB Configuration
+# MongoDB connection for users
+client = MongoClient(os.getenv("MONGODB_URI"))
+db = client["Resources"]
+users_collection = db["users"]
+
+# Password hashing setup
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+# JWT settings
+SECRET_KEY = os.getenv("JWT_SECRET")
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 60
+
+# OAuth2 scheme
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+# Pydantic models for user authentication
+class UserCreate(BaseModel):
+    username: str
+    password: str
+
+class User(BaseModel):
+    username: str
+    hashed_password: str
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+# Helper functions for auth
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
+
+def get_password_hash(password):
+    return pwd_context.hash(password)
+
+def authenticate_user(username: str, password: str):
+    print(f"Authenticating user: {username}")
+    user = users_collection.find_one({"username": username})
+    if not user:
+        print("User not found in database")
+        return False
+    if not verify_password(password, user["hashed_password"]):
+        print("Password verification failed")
+        return False
+    print("User authenticated successfully")
+    return User(**user)
+
+
+
+
+def create_access_token(data: dict, expires_delta: timedelta = None):
+    to_encode = data.copy()
+
+    if expires_delta:
+        expire = datetime.now(timezone.utc) + expires_delta
+    else:
+        expire = datetime.now(timezone.utc) + timedelta(minutes=15)
+    
+    to_encode.update({"exp": expire})
+    
+    # Ensure that 'sub' and other fields are strings
+    if "sub" in to_encode:
+        to_encode["sub"] = str(to_encode["sub"])  # Convert the subject to a string
+
+    try:
+        # Encode the JWT
+        encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+        return encoded_jwt
+    except Exception as e:
+        print(f"Error in JWT creation: {str(e)}")  # Log the error for debugging
+        raise HTTPException(status_code=500, detail="Token generation failed")
+
+
+# Authentication routes
+@app.post("/signup")
+async def signup(user: UserCreate):
+    existing_user = users_collection.find_one({"username": user.username})  # This looks for an email
+    if existing_user:
+        raise HTTPException(status_code=400, detail="Username (email) already exists")  # Clear error message
+    hashed_password = get_password_hash(user.password)
+    new_user = User(username=user.username, hashed_password=hashed_password)
+    users_collection.insert_one(new_user.model_dump())
+    return {"message": "User created successfully"}
+
+
+@app.post("/token", response_model=Token)
+async def login(form_data: OAuth2PasswordRequestForm = Depends()):
+    try:
+        print(f"Received login request: {form_data.username}, {form_data.password}")  # Log form data
+        user = authenticate_user(form_data.username, form_data.password)
+        if not user:
+            print("Authentication failed.")  # Log failure
+            raise HTTPException(
+                status_code=401,
+                detail="Incorrect username or password",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+        access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        access_token = create_access_token(
+            data={"sub": user.username}, expires_delta=access_token_expires
+        )
+        print("Token generated successfully.")  # Log token creation success
+        return {"access_token": access_token, "token_type": "bearer"}
+    except Exception as e:
+        print(f"Error during login: {str(e)}")  # Log any exception
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+
+
+
+
+# PDF processing and chat-related code follows
+# Google and Astra DB Configuration for PDF processing and vector store
 ASTRA_DB_APPLICATION_TOKEN = os.getenv("ASTRA_DB_APPLICATION_TOKEN")
 ASTRA_DB_API_ENDPOINT = os.getenv("ASTRA_DB_API_ENDPOINT")
 COLLECTION_NAME = "talk_to_pdf"
@@ -49,6 +171,7 @@ vector_store = AstraDBVectorStore(
 # Initialize language model
 llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro-002", temperature=0.2, max_output_tokens=8000, top_p=0.95, top_k=40)
 
+# ChatRequest model for interacting with the chat functionality
 class ChatRequest(BaseModel):
     question: str
     source: Optional[str] = None 
@@ -126,7 +249,7 @@ async def process_pdf_api(file: UploadFile = File(...)):
         loader = PyPDFLoader(temp_file_path)
         documents = loader.load()
 
-        #generating summary
+        # Generate summary
         full_content = "\n".join([doc.page_content for doc in documents])
         summary = summarize_content(full_content)
         
@@ -181,6 +304,7 @@ async def process_pdf_api(file: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing PDF: {str(e)}")
 
+# Chat endpoint to interact with the PDF
 @app.post("/chat_with_pdf")
 async def chat_with_pdf_api(chat_request: ChatRequest):
     try:
@@ -202,25 +326,22 @@ async def chat_with_pdf_api(chat_request: ChatRequest):
 
         Answer:"""
         prompt = ChatPromptTemplate.from_template(template)
-
-        # Set up the RAG chain
-        rag_chain = (
-            {"context": retriever | (lambda docs: "\n\n".join(doc.page_content for doc in docs)), "question": RunnablePassthrough()}
-            | prompt
-            | llm
+        
+        chain = (
+            {
+                "question": RunnablePassthrough(),
+                "context": retriever
+            }
+            | prompt 
+            | llm 
             | StrOutputParser()
         )
 
-        # Generate the answer
-        response = rag_chain.invoke(chat_request.question)
-        return {
-            "answer": response, 
-            "source_filtered": chat_request.source is not None,
-            "filter_applied": chat_request.source if chat_request.source else "None"
-        }
+        result = chain.invoke(chat_request.question)
+        return {"answer": result}
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error interacting with PDF: {str(e)}")
 
 if __name__ == "__main__":
     import uvicorn
